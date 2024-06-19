@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Info</title>
+    <script src="jquery.min.js"></script>
+</head>
+<body>
+    <h1>获取YouTube视频信息</h1>
+    <input type="text" id="videoId" value="7lCDEYXw3mM" placeholder="输入YouTube视频ID">
+    <button id="getInfo">获取信息</button>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#getInfo').click(function() {
+                var videoId = $('#videoId').val().trim();
+
+                if (videoId === '') {
+                    alert('请输入视频ID');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'http://localhost:3000/video-info/' + videoId,
+                    method: 'GET',
+                    success: function(data) {
+                        if (data.error) {
+                            $('#result').html('<p>错误: ' + data.error + '</p>');
+                        } else {
+                          const statistics = data.items[0].statistics
+                            $('#result').html('<p>标题: ' + data.items[0].snippet.localized.title + '</p><p>播放量: ' + statistics.viewCount + '</p><p>点赞量: ' + statistics.likeCount + '</p><p>评论数: ' + statistics.commentCount + '</p>');
+                        }
+                    },
+                    error: function(err) {
+                        $('#result').html('<p>请求失败</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
