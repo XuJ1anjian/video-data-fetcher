@@ -35,6 +35,7 @@
                         console.log('API response:', data); // 添加日志
                         var url = window.URL.createObjectURL(new Blob([data]));
                         var a = document.createElement('a');
+                        $('#result').html('<p>请求成功，文件自动下载</p>');
                         a.href = url;
                         a.download = 'video_info.xlsx';
                         document.body.appendChild(a);
