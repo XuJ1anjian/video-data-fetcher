@@ -8,32 +8,41 @@
 </head>
 <body>
     <h1>获取YouTube视频信息</h1>
-    <input type="text" id="videoId" value="7lCDEYXw3mM" placeholder="输入YouTube视频ID">
+    <textarea id="videoLinks" rows="10" cols="50" placeholder="输入YouTube视频链接，每个链接一行"></textarea>
     <button id="getInfo">获取信息</button>
     <div id="result"></div>
 
     <script>
         $(document).ready(function() {
             $('#getInfo').click(function() {
-                var videoId = $('#videoId').val().trim();
+                var videoLinks = $('#videoLinks').val().trim().split('\n');
+                console.log('Video Links:', videoLinks); // 添加日志
 
-                if (videoId === '') {
-                    alert('请输入视频ID');
+                if (videoLinks.length === 0) {
+                    alert('请输入视频链接');
                     return;
                 }
 
                 $.ajax({
-                    url: 'http://localhost:3000/video-info/' + videoId,
-                    method: 'GET',
+                    url: 'http://localhost:3000/video-info',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ links: videoLinks }),
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
                     success: function(data) {
-                        if (data.error) {
-                            $('#result').html('<p>错误: ' + data.error + '</p>');
-                        } else {
-                          const statistics = data.items[0].statistics
-                            $('#result').html('<p>标题: ' + data.items[0].snippet.localized.title + '</p><p>播放量: ' + statistics.viewCount + '</p><p>点赞量: ' + statistics.likeCount + '</p><p>评论数: ' + statistics.commentCount + '</p>');
-                        }
+                        console.log('API response:', data); // 添加日志
+                        var url = window.URL.createObjectURL(new Blob([data]));
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'video_info.xlsx';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
                     },
                     error: function(err) {
+                        console.error('Request failed:', err); // 添加日志
                         $('#result').html('<p>请求失败</p>');
                     }
                 });
