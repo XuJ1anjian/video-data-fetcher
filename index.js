@@ -14,7 +14,7 @@ app.use(express.json()); // 用于解析JSON请求体
 
 // Google API密钥
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
-const YOUTUBE_PART = 'snippet,statistics'
+const YOUTUBE_PART = 'snippet,statistics' 
 
 // 代理服务器URL
 const proxyHost = process.env.PROXY_HOST;
@@ -46,7 +46,7 @@ app.post("/video-info", async (req, res) => {
       const response = await axios.get("https://www.googleapis.com/youtube/v3/videos", {
         params: {
           id: videoId,
-          key: YOUTUBE_API_KEY, // Google Api Key
+          key: 'AIzaSyAMgo4bFTbJjuezS2TIJ7N9VfruQN4bjXs', // Google Api Key
           part: YOUTUBE_PART // 请求的内容部分
         },
         timeout: 10000, // 增加超时时间为10秒
