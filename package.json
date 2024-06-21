@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,6 @@
     "body-parse": "^0.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "exceljs": "^4.4.0",
     "express": "^4.19.2",
     "googleapis": "^140.0.0",
     "https-proxy-agent": "^7.0.4",
